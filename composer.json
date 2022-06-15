@@ -1,0 +1,19 @@
+{
+    "name": "www/macaleviajes",
+    "description": "proyecto macaleviajes",
+    "type": "proyect",
+    "authors": [
+        {
+            "name": "Mariano-gago",
+            "email": "mfgago05@gmail.com"
+        }
+    ],
+    "require": {
+        "intervention/image": "^2.7"
+    },
+    "autoload":{
+        "psr-4": {
+            "App\\" : "../macaleviajes/clases"
+        }
+    }
+}

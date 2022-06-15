@@ -1,0 +1,42 @@
+
+/* Media Queries*/
+
+@mixin phone{
+    @media(min-whidth: 480px){
+        @content;
+    }
+}
+
+@mixin tablet{
+    @media(min-whidth:768px){
+        @content;
+    }
+}
+
+@mixin desktop{
+    @media(min-whidth:1024px){
+        @content;
+    }
+}
+
+
+@mixin button($bgColor, $display){
+    background-color: $bgColor;
+    color: $blanco;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    padding: 1rem 3rem;
+    margin-top: 2rem;
+    display: $display;
+    border: none;
+
+    &:hover{
+        background-color: darken($bgColor, 5);
+        color: $blanco;
+        cursor: pointer;
+    }
+}
+
+
+

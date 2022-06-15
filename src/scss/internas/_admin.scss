@@ -1,0 +1,65 @@
+.alerta{
+    padding: .5rem;
+    text-align: center;
+    color: $blanco;
+    font-weight: $bold;
+    text-transform: uppercase;
+    margin: 1rem;
+
+    &.error{
+        
+        background-color: $rojo;
+    }
+
+    &.exito{
+        background-color: $verde;
+    }
+    
+}
+
+table.viajes{
+    margin-top: 4rem;
+    width: 100%;
+    border-spacing: 0;
+    text-align: center;
+    
+    thead{
+        th{
+            background-color: $verde;
+            color: $blanco;
+            padding: 1.5rem;
+            border-right: 2px solid $blanco;
+            //margin: 2rem;
+        }
+    }
+    tbody{
+        tr{
+            th{
+                border-bottom: 1px solid $grisOscuro;
+            }
+        }
+        
+    }
+    .imagen-tabla{
+        width: 10rem;
+    }
+
+}
+
+
+.imagenes-actualizacion{
+    display: flex;
+    
+
+    .imagen-small{
+        width: 20rem;
+        margin: 1rem;
+    }
+}
+
+.iconos{
+    
+    margin-top: 1rem;
+    
+}
+

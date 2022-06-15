@@ -1,0 +1,44 @@
+.boxes{
+    background-color:$celeste;
+    margin-top: 5rem;
+}
+
+
+.box{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    margin-bottom: 2rem;
+    
+    @media (max-width:768px){
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+    @media (max-width:320px){
+        display: grid;
+        grid-template-columns: 100%;
+    }
+
+    .box-card{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 2rem;
+    }
+}
+
+.box-descripcion{
+
+    h3{
+        font-size: 2rem;
+        font-family: $primary_font;
+        font-weight: $bold;
+        color: $celesteOscuro;
+        text-transform: uppercase;
+        margin: 1rem;
+    }
+    p{
+        font-size: 1.5rem;
+        text-align: center;
+    }
+}

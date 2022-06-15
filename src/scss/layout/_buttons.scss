@@ -1,0 +1,55 @@
+.button-amarillo{
+    @include button($amarillo, inline-block)
+}
+
+.button-amarillo_block{
+    @include button($amarillo, block)
+}
+
+.button-rojo{
+    @include button($rojo,inline-block)
+}
+
+.button-rojo_block{
+    @include button($rojo, block);
+    
+    
+}
+
+
+.button-verde{
+    @include button($verde, inline-block)
+}
+
+.button-verde_block{
+    @include button($verde, block)
+}
+
+.button-celeste{
+    @include button($celeste, block)
+}
+
+.radius{
+    border-radius: 10px;
+}
+
+.boton-celeste__mod{
+    margin-bottom: 1rem;
+}
+.button-celeste__block{
+    @include button($celeste, block)
+}
+
+.ver-todas{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2rem;
+}
+
+.button-rojo{
+    @include button($rojo,inline-block);
+}
+
+.boton-amarillo-block{
+    @include button($amarillo, block);
+}

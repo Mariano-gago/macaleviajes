@@ -1,0 +1,136 @@
+.header{
+    animation-duration: 3s;
+    animation-name:nav;
+    background-color: $blanco;
+    padding: 2rem 0 1rem 0 ;
+}
+@keyframes nav {
+    from{
+        transform: translate3d(0,-100%, 0);
+        opacity: 0;
+    }
+    to{
+        transform: translate3d(0,0,0);
+        opacity: 1;
+    }
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+
+    img{
+        @media (max-width:768px){
+            width: 50px;
+            height:50px;
+        }
+    }
+}
+
+
+.content-header{
+    display: flex;
+    flex-direction: column;
+} 
+
+.nav a,
+    .media_social a{
+        margin: 1rem;
+        color: $negro;
+        font-weight: $regular;
+        @media (max-width:768px){
+            margin-top: 3rem;
+            font-size: 1.5rem;
+        }
+    }
+
+.media_social{
+    display: flex;
+    
+    img{
+        max-width: 30px;
+        max-height: 30px;
+    }
+}
+
+.title{
+    font-family: $font_marca;
+    font-size: 4rem;
+    font-weight: $regular;
+    @media (max-width: 768px){
+        font-size: 3rem;
+    }
+    img{
+        @media (max-width:768px){
+            width: 50px;
+            height:50px;
+        }
+    }
+
+}
+
+.barra{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    @media(min-width: 768px){
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+
+.nav{
+    flex-wrap: nowrap;
+    @media(min-width: 768px){
+        display: flex;
+        
+    }
+
+    a{
+        display: block;
+
+        &:hover{
+            color: $celeste;
+        }
+    }
+}
+
+.titulo{
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.titulo-lineas{
+    font-size: 4rem;
+    display: inline-block;
+    position: relative;
+    color: $grisOscuro;
+    font-weight: $regular;
+}
+
+.titulo-lineas::after, .titulo-lineas::before{
+    content:'';
+    position: absolute;
+    width:30rem;
+    height: 3px;
+    background-color:rgba(0,0,0,.1);
+    top: 0.6em;
+}
+
+
+.titulo-lineas::after, .titulo-lineas::before{
+    @media (max-width: 768px){
+    display: none;
+    }
+}
+
+
+
+.titulo-lineas::after{
+    right: -31rem;
+}
+.titulo-lineas::before{
+    left: -31rem;
+}  
+

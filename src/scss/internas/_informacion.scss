@@ -1,0 +1,41 @@
+.card-position{
+    margin: auto;
+    box-shadow: -3px 1px 36px -5px rgba(0,0,0,0.51);
+-webkit-box-shadow: -3px 1px 36px -5px rgba(0,0,0,0.51);
+-moz-box-shadow: -3px 1px 36px -5px rgba(0,0,0,0.51);
+}
+
+.card-body{
+    margin: 3rem;
+    
+
+    .card-title, p{
+        font-family: $primary_font;
+        font-size:2.2rem ;
+        color: $grisOscuro;
+    }
+
+    .precio{
+        color: #0e8d0a;
+        span{
+            font-weight: bold;
+        }
+    }
+    .card-text{
+        font-size: 1.5rem;
+        font-weight: $regular;
+        color: $bold;
+        
+        ul li{
+            margin-top: 1rem;
+        }
+    }
+
+    
+}
+
+.button-celeste__info{
+    margin: auto;
+    margin-bottom: .5rem;
+}
+

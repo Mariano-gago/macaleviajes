@@ -1,0 +1,40 @@
+.formulario{
+    margin-bottom: 5rem;
+    fieldset{
+        border-width: 2px;
+        border-style:groove;
+        border-image:initial;
+        border-color: $grisOscuro;
+        width: 95%;
+        margin-top: 2rem;
+    }
+    legend{
+        margin: 1rem;
+        font-size: 1.8rem;
+        color: $grisOscuro;
+    }
+
+    label{
+        font-size: 1.5rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        display: block;
+    }
+
+    input:not([type="submit"]), textarea, select{
+        padding:.5rem ;
+        width: 95%;
+        display: block;
+        border: 1px solid $grisOscuro;
+        border-radius: 1rem;
+        margin-bottom: 2rem;
+    }
+    textarea{
+        height: 20rem;
+    }
+    input::placeholder{
+        font-size: 1.2rem;
+    }
+    
+}
+

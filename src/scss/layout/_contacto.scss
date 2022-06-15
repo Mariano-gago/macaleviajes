@@ -1,0 +1,20 @@
+.no-webp .imagen-contacto{
+    background-image: url('../../build/img/bannerContacto.webp');
+}
+
+.webp .imagen-contacto{
+    background-image: url('../../build/img/bannerContacto.webp');
+}
+
+.imagen-contacto{
+    background-position: center center;
+    background-size: cover;
+    background-attachment: fixed;
+    padding: 15rem 0;
+    margin-bottom: 2rem;
+} 
+
+h2{
+    font-size: 4rem;
+    font-weight: $regular;
+}
