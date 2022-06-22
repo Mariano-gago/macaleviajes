@@ -5,7 +5,7 @@ namespace App;
 class Viaje {
     //Base de datos
     protected static $db;
-    protected static $columnasDB= ['id', 'destino', 'precio', 'icono1', 'icono2', 'icono3',
+    protected static $columnasDB= ['idViaje', 'destino', 'precio', 'icono1', 'icono2', 'icono3',
                                     'descripcion', 'categoria','continente', 'imagen1', 'imagen2','imagen3',
                                     'aereos', 'traslado', 'hotel', 'excursiones'];
 
@@ -15,7 +15,7 @@ class Viaje {
     protected static $errores = [];
 
     //Propiedades de la clase
-    public $id;
+    public $idViaje;
     public $destino;
     public $precio;
     public $icono1;
@@ -34,7 +34,7 @@ class Viaje {
 
     public function __construct($args = [])
         {
-            $this -> id = $args['id'] ?? '';
+            $this -> idViaje = $args['idViaje'] ?? '';
             $this -> destino = $args['destino'] ?? '';
             $this -> precio = $args['precio'] ?? '';
             $this -> icono1 = $args['icono1'] ?? '';
@@ -47,23 +47,55 @@ class Viaje {
             $this -> imagen2 = $args['imagen2'] ?? '';
             $this -> imagen3 = $args['imagen3'] ?? '';
             $this -> aereos = $args['aereos'] ?? '';
+            $this -> traslado = $args['traslado'] ?? '';
             $this -> hotel = $args['hotel'] ?? '';
             $this -> excursiones = $args['excursiones'] ?? '';
         }
     
+
     public function guardar(){
+        if(!is_null($this->idViaje)){
+            //Crea nuevo registro
+            $this->crear();
+        }else{
+            //Actualizar
+            $this->actualizar();
+        }
+    }
+
+
+    public function crear(){
         //Sanitizar atributos
         $atributos = $this->sanitizarAtributos();
         //Insertar en base de datos
         $query = "INSERT INTO viaje (";
-        $query .= join(', ', array_keys($atributos));
-        $query .= " ) VALUES (' "; 
-        $query .= join("', '", array_values($atributos));
-        $query .= " ')";
-
-        //debuger($query);
+        $query .= join(', ',array_keys($atributos));
+        $query .= " ) VALUES ('"; 
+        $query .= join("','",array_values($atributos));
+        $query .= "')";
         $resultado = self::$db-> query($query);
+        
+        if($resultado){
+            header('Location: ../?registrado=1');
+            }
+    }
+
+    public function actualizar(){
+        $atributos = $this->sanitizarAtributos();
+
+        $valores = [];
+        foreach($atributos as $key =>$value){
+            $valores[] = "{$key}='{$value}'";
+
+        }
+        $query = " UPDATE viaje SET ";
+        $query .= join(', ', $valores);
+        $query .= " WHERE idViaje = '" . self::$db->escape_string($this->idViaje) . "' ";
+
+        $resultado = self::$db->query($query);
+        
         return $resultado;
+        
     }
 
     //Conexion a la DB
@@ -71,11 +103,28 @@ class Viaje {
         //Self hace referencia a los atributos o propiedades estaticas, asi como this hace refrencia a las propiedades public
         self::$db = $database;
     }
+
+    //Eliminar un registro
+    public function eliminar(){
+        $query = "DELETE FROM viaje WHERE idViaje = " . self::$db->escape_string($this->idViaje) . " LIMIT 1";
+        $resultado = self::$db->query($query);
+
+        if($resultado){
+            unlink(CARPETA_IMAGENES . $this->icono1);
+            unlink(CARPETA_IMAGENES . $this->icono2);
+            unlink(CARPETA_IMAGENES . $this->icono3);
+            unlink(CARPETA_IMAGENES . $this->imagen1);
+            unlink(CARPETA_IMAGENES . $this->imagen2);
+            unlink(CARPETA_IMAGENES . $this->imagen3);
+            
+            header('location: ../admin?registrado=3');
+        }
+    }
     //Identifica y une los atributos de la base de datos
     public function atributos(){
         $atributos = [];
         foreach(self::$columnasDB as $columna){
-            if($columna === 'id') continue;
+            if($columna === 'idViaje') continue;
             $atributos[$columna] = $this->$columna;
         }
         return $atributos;
@@ -91,35 +140,80 @@ class Viaje {
     }
 
     //Subida de archivos de imagenes
-    public function setImagen1($imagen1){
-        if($imagen1){
-            $this->icono1 = $imagen1;
+    public function setImagen1($nombreIcono1){
+        //Recibe un nombre de imagen
+        //Elimina imagen anterior
+        if($this->idViaje){
+            $existeArchivo = file_exists(CARPETA_IMAGENES . $this->icono1);
+            if($existeArchivo){
+                unlink(CARPETA_IMAGENES . $this->icono1);
+            }
+        }
+        //Asgina el nombre a la imagen
+        if($nombreIcono1){
+            $this->icono1 = $nombreIcono1;
         }
     }
-    public function setImagen2($imagen2){
-        if($imagen2){
-            $this->icono2 = $imagen2;
+
+    public function setImagen2($nombreIcono2){
+        if($this->idViaje){
+            //Comprobar si existe
+            $existeArchivo = file_exists(CARPETA_IMAGENES . $this->icono2);
+            if($existeArchivo){
+                unlink(CARPETA_IMAGENES . $this->icono2);
+            }
+        }
+        if($nombreIcono2){
+            $this->icono2 = $nombreIcono2;
         }
     }
     
-    public function setImagen3($imagen3){
-        if($imagen3){
-            $this->icono3 = $imagen3;
+    public function setImagen3($nombreIcono3){
+        if($this->idViaje){
+            //Comprobar si existe
+            $existeArchivo = file_exists(CARPETA_IMAGENES . $this->icono3);
+            if($existeArchivo){
+                unlink(CARPETA_IMAGENES . $this->icono3);
+            }
+        }
+        if($nombreIcono3){
+            $this->icono3 = $nombreIcono3;
         }
     }
-    public function setImagen4($imagen3){
-        if($imagen3){
-            $this->imagen1 = $imagen3;
+    public function setImagen4($nombreImagen1){
+        if($this->idViaje){
+            //Comprobar si existe
+            $existeArchivo = file_exists(CARPETA_IMAGENES . $this->imagen1);
+            if($existeArchivo){
+                unlink(CARPETA_IMAGENES . $this->imagen1);
+            }
+        }
+        if($nombreImagen1){
+            $this->imagen1 = $nombreImagen1;
         }
     }
-    public function setImagen5($imagen4){
-        if($imagen4){
-            $this->imagen2 = $imagen4;
+    public function setImagen5($nombreImagen2){
+        if($this->idViaje){
+            //Comprobar si existe
+            $existeArchivo = file_exists(CARPETA_IMAGENES . $this->imagen2);
+            if($existeArchivo){
+                unlink(CARPETA_IMAGENES . $this->imagen2);
+            }
+        }
+        if($nombreImagen2){
+            $this->imagen2 = $nombreImagen2;
         }
     }
-    public function setImagen6($imagen5){
-        if($imagen5){
-            $this->imagen3 = $imagen5;
+    public function setImagen6($nombreImagen3){
+        if($this->idViaje){
+            //Comprobar si existe
+            $existeArchivo = file_exists(CARPETA_IMAGENES . $this->imagen3);
+            if($existeArchivo){
+                unlink(CARPETA_IMAGENES . $this->imagen3);
+            }
+        }
+        if($nombreImagen3){
+            $this->imagen3 = $nombreImagen3;
         }
     }
 
@@ -180,5 +274,61 @@ class Viaje {
             self::$errores [] = "Agregar un Imagen3"; 
         }
         return self::$errores;
+    }
+
+    //Muestra los viajes
+    public static function all(){
+        $query = " SELECT * FROM viaje";
+        $resultado = self::consultarSQL($query);
+
+        return $resultado;
+    }
+
+    public static function destacado(){
+        $query = " SELECT * FROM viaje WHERE categoria = 'destacado'";
+        $resultado = self::consultarSQL($query);
+        return $resultado;
+    }
+    
+    //Buscar por id
+    public static function find($idViaje){
+        $query = "SELECT * FROM viaje WHERE idViaje = ${idViaje}";
+        $resultado = self::consultarSQL($query);
+        return array_shift($resultado);
+    }
+
+    public static function consultarSQL($query){
+        //Consultar base de datos
+        $resultado = self::$db->query($query);
+        //Iterar resultados
+        $array = [];
+        while($registro = $resultado->fetch_assoc()){
+            $array[] = self::crearObjeto($registro);
+        }
+        //liberar memoria
+        $resultado -> free();
+        //retornar resultados
+        return $array;
+    }
+
+    protected static function crearObjeto($registro){
+        $objeto = new self;
+
+        foreach($registro as $key =>$value){
+            if(property_exists($objeto, $key)){
+                $objeto->$key  = $value;
+
+            }
+        }
+        return $objeto;
+    }
+
+    //Sincroniza el objeto en memoria
+    public function sincronizar($args = []){
+        foreach($args as $key=>$value){
+            if(property_exists($this, $key) && !is_null($value)){
+                $this->$key = $value;
+            }
+        }
     }
 };

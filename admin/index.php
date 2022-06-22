@@ -8,18 +8,11 @@ session_start();
 } */
 
 //Importa conexion
-require '../includes/config/database.php';
-$db= conectarDB();
+require '../includes/app.php';
+use App\Viaje;
 
-//Query
-$query = "SELECT * FROM viaje";
-//Consultar base de datos
-$resultadoConsulta = mysqli_query($db, $query);
-
-
-/*echo "<pre>";
-var_dump($_GET);
-echo"</pre>"; */
+//Implementar metodo
+$viajes = Viaje::all();
 
 //Muestra mensaje
 $registrado = $_GET['registrado'] ?? null; 
@@ -31,27 +24,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     
     if($id){
-        //Eliminar el archivo de imagen
-        $query = "SELECT icono1, icono2, icono3, imagen1, imagen2, imagen3 FROM viaje WHERE idViaje = ${id}";
-        $registrado = mysqli_query($db, $query);
-        $viaje = mysqli_fetch_assoc($registrado);
+        $viaje = Viaje::find($id);
         
-        
-        unlink('../imagenes/' . $viaje['imagen1']);
-        unlink('../imagenes/' . $viaje['imagen2']);
-        unlink('../imagenes/' . $viaje['imagen3']);
-
-        unlink('../imagenes/' . $viaje['icono1']);
-        unlink('../imagenes/' . $viaje['icono2']);
-        unlink('../imagenes/' . $viaje['icono3']);
-        
-        //Eliminar la propiedad
-        $query = "DELETE FROM viaje WHERE idViaje = ${id}";
-        $registrado = mysqli_query($db, $query);
-
-        if($registrado){
-            header('location: ../admin?registrado=3');
-        }
+        $viaje->eliminar();
     } 
     
 }
@@ -124,38 +99,38 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                         </tr>
                     </thead>
                     <tbody> <!-- Muestra resultados base de datos-->
-                        <?php while($viaje = mysqli_fetch_assoc($resultadoConsulta)):;?>
+                        <?php foreach($viajes as $viaje):;?>
                         <tr>
-                            <th><?php echo $viaje['idViaje'];?></th>
-                            <th><?php echo $viaje['destino'];?></th>
-                            <th>$<?php echo $viaje['precio'];?></th>
+                            <th><?php echo $viaje->idViaje;?></th>
+                            <th><?php echo $viaje->destino;?></th>
+                            <th>$<?php echo $viaje->precio;?></th>
                             <th>
-                                <img src="../imagenes/<?php echo $viaje['icono1'];?>" class="imagen-tabla">
-                                <img src="../imagenes/<?php echo $viaje['icono2'];?>" class="imagen-tabla">
-                                <img src="../imagenes/<?php echo $viaje['icono3'];?>" class="imagen-tabla">
+                                <img src="../imagenes/<?php echo $viaje->icono1;?>" class="imagen-tabla">
+                                <img src="../imagenes/<?php echo $viaje->icono2;?>" class="imagen-tabla">
+                                <img src="../imagenes/<?php echo $viaje->icono3;?>" class="imagen-tabla">
                             </th>
-                            <th><?php echo $viaje['descripcion'];?></th>
+                            <th><?php echo $viaje->descripcion;?></th>
                             <th>
-                                <img src="../imagenes/<?php echo $viaje['imagen1'];?>" class="imagen-tabla">
-                                <img src="../imagenes/<?php echo $viaje['imagen2'];?>" class="imagen-tabla">
-                                <img src="../imagenes/<?php echo $viaje['imagen3'];?>" class="imagen-tabla">
+                                <img src="../imagenes/<?php echo $viaje->imagen1;?>" class="imagen-tabla">
+                                <img src="../imagenes/<?php echo $viaje->imagen2;?>" class="imagen-tabla">
+                                <img src="../imagenes/<?php echo $viaje->imagen3;?>" class="imagen-tabla">
                             </th>
-                            <th><?php echo $viaje['categoria'];?></th>
-                            <th><?php echo $viaje['continente'];?></th>
-                            <th><?php echo $viaje['aereos'];?></th>
-                            <th><?php echo $viaje['traslado'];?></th>
-                            <th><?php echo $viaje['hotel'];?></th>
-                            <th><?php echo $viaje['excursiones'];?></th>
+                            <th><?php echo $viaje->categoria;?></th>
+                            <th><?php echo $viaje->continente;?></th>
+                            <th><?php echo $viaje->aereos;?></th>
+                            <th><?php echo $viaje->traslado;?></th>
+                            <th><?php echo $viaje->hotel;?></th>
+                            <th><?php echo $viaje->excursiones;?></th>
                             <th>
                                 <form method="POST" class="w-100">
-                                    <input type="hidden" name="id" value="<?php echo $viaje['idViaje'];?>">
+                                    <input type="hidden" name="id" value="<?php echo $viaje->idViaje;?>">
                                     <input class="button-rojo_block radius" type="submit" value="Eliminar">
                                 </form>
                                 
-                                <a class="button-amarillo_block radius" href="../admin/propiedades/actualizar.php?id=<?php echo $viaje['idViaje'];?>">Actualizar</a>
+                                <a class="button-amarillo_block radius" href="../admin/propiedades/actualizar.php?id=<?php echo $viaje->idViaje;?>">Actualizar</a>
                             </th>
                         </tr>
-                        <?php endwhile;?>
+                        <?php endforeach;?>
                     </tbody>
                     
                 </table>

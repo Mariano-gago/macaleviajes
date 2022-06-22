@@ -46,20 +46,19 @@ table.viajes{
 
 }
 
-
 .imagenes-actualizacion{
     display: flex;
-    
-
     .imagen-small{
         width: 20rem;
+        margin: 1rem;
+    }
+    .imagen-small__icono{
+        width: 10rem;
         margin: 1rem;
     }
 }
 
 .iconos{
-    
     margin-top: 1rem;
-    
 }
 

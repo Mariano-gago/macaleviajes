@@ -10,5 +10,11 @@ function debuger($variable){
     exit;
 }
 
+//Escapa / Sanitizar el HTML
+
+function sanitizar($html){
+    $sanitizar = htmlspecialchars($html);
+    return $sanitizar;
+}
 
 ?>
